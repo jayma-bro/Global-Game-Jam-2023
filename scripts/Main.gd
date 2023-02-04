@@ -1,8 +1,12 @@
 extends Node2D
 
+var t0: int = 0
+
 func _ready():
 	pass
 
 
 func _on_Button_pressed():
-	pass # Replace with function body.
+	t0 = Time.get_ticks_msec()
+	print(t0)
+	

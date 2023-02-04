@@ -210,3 +210,5 @@ margin_top = 96.0
 margin_right = 497.0
 margin_bottom = 138.0
 text = "Start"
+
+[connection signal="pressed" from="Button" to="." method="_on_Button_pressed"]
