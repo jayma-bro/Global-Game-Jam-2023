@@ -1,7 +1,8 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://prefabs/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://assets/env/tileset_legacy.png" type="Texture" id=2]
+[ext_resource path="res://scripts/Main.gd" type="Script" id=3]
 
 [sub_resource type="ConvexPolygonShape2D" id=5]
 points = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )
@@ -193,6 +194,7 @@ points = PoolVector2Array( 16, 16, 0, 16, 0, 0, 16, 0 )
 3/z_index = 0
 
 [node name="main" type="Node2D"]
+script = ExtResource( 3 )
 
 [node name="Player" parent="." instance=ExtResource( 1 )]
 
@@ -201,3 +203,10 @@ tile_set = SubResource( 4 )
 cell_size = Vector2( 16, 16 )
 format = 1
 tile_data = PoolIntArray( 1245217, 3, 0, 1245218, 3, 1, 1245219, 3, 2, 1310751, 3, 0, 1310752, 3, 1, 1310753, 3, 65540, 1310754, 3, 65537, 1310755, 3, 65538, 1376283, 3, 0, 1376284, 3, 1, 1376285, 3, 2, 1376287, 3, 65536, 1376288, 3, 65537, 1376289, 3, 3, 1376290, 3, 131073, 1376291, 3, 131074, 1441818, 3, 0, 1441819, 3, 65540, 1441820, 3, 65537, 1441821, 3, 65539, 1441822, 3, 1, 1441823, 3, 65540, 1441824, 3, 3, 1441825, 3, 131074, 1507352, 3, 0, 1507353, 3, 1, 1507354, 3, 65540, 1507355, 3, 3, 1507356, 3, 131073, 1507357, 3, 131073, 1507358, 3, 131073, 1507359, 3, 131073, 1507360, 3, 131074, 1572888, 3, 131072, 1572889, 3, 131073, 1572890, 3, 131073, 1572891, 3, 131074 )
+
+[node name="Button" type="Button" parent="."]
+margin_left = 413.0
+margin_top = 96.0
+margin_right = 497.0
+margin_bottom = 138.0
+text = "Start"
