@@ -13,6 +13,11 @@ config_version=4
 config/name="Global Game Jam 2023"
 run/main_scene="res://scenes/Main.tscn"
 
+[autoload]
+
+Settings="*res://Settings.gd"
+Func="*res://Func.gd"
+
 [display]
 
 window/size/test_width=1600
