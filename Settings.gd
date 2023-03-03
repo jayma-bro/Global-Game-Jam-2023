@@ -2,8 +2,17 @@ extends Node
 
 var t0: int = 0
 
+var BaseRun: Dictionary = {
+	"run": [],
+#	"fullRun": [],
+	"name": "run0",
+	"path": "run0"
+}
+
 var StartSave: Dictionary = {
-	"childs": { "loop0": {"run": [], "fullRun": [], "name": "loop0", "childs": {}}}, "last_child_id": 0, "last_child_name": "loop0"
+	"runs": {},
+	"last_child_id": 0,
+	"last_child_name": "run0"
 }
 
 var GameSave: Dictionary = {}

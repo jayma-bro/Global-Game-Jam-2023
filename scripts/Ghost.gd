@@ -1,6 +1,6 @@
-extends KinematicBody2D
+extends CharacterBody2D
 
-export var speed: float = 12.5
+@export var speed: float = 12.5
 
 var props: Dictionary = {}
 var deltaCum: float = 0
@@ -18,7 +18,7 @@ func _ready():
 
 
 func _process(delta):
-	if not props.run.empty():
+	if not props.run.is_empty():
 		deltaCum += delta * 1000
 		Move(delta)
 		if deltaCum >= props.run[0].timecode:
@@ -35,4 +35,6 @@ func Move(delta: float):
 	move.y = int(act_lst.down) - int(act_lst.up)
 	move = move.normalized()
 	move *= speed
-	move_and_slide(move * delta * antdelta, Vector2.UP)
+	set_velocity(move * delta * antdelta)
+	set_up_direction(Vector2.UP)
+	move_and_slide()

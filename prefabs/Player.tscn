@@ -1,10 +1,10 @@
 [gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://scripts/Player.gd" type="Script" id=1]
-[ext_resource path="res://assets/character/roguelikeChar_transparent.png" type="Texture" id=2]
+[ext_resource path="res://assets/character/roguelikeChar_transparent.png" type="Texture2D" id=2]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 16, 16 )
+size = Vector2( 16, 16 )
 
 [sub_resource type="AtlasTexture" id=4]
 atlas = ExtResource( 2 )
@@ -18,7 +18,7 @@ animations = [ {
 "speed": 5.0
 } ]
 
-[node name="Player" type="KinematicBody2D"]
+[node name="Player" type="CharacterBody2D"]
 collision_layer = 0
 script = ExtResource( 1 )
 __meta__ = {
@@ -28,6 +28,6 @@ __meta__ = {
 [node name="PlayerCollision" type="CollisionShape2D" parent="."]
 shape = SubResource( 1 )
 
-[node name="PlayerSprite" type="AnimatedSprite" parent="."]
+[node name="PlayerSprite" type="AnimatedSprite2D" parent="."]
 scale = Vector2( 1.88235, 1.88235 )
 frames = SubResource( 3 )

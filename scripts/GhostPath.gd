@@ -10,4 +10,4 @@ func _ready():
 		curve.add_point(Vector2(float(pos.substr(1, -1)), float(pos.get_slice(", ", 1))))
 
 func _process(delta):
-	$PathFollow.offset = $PathFollow.offset + (delta * speed)
+	$PathFollow3D.offset = $PathFollow3D.offset + (delta * speed)

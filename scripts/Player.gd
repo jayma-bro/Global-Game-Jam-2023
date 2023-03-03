@@ -1,7 +1,7 @@
-extends KinematicBody2D
+extends CharacterBody2D
 
 
-export var speed: float = 12.5
+@export var speed: float = 12.5
 
 var props: Dictionary = {}
 var move: Vector2 = Vector2.ZERO
@@ -12,7 +12,7 @@ var follow: bool = true
 var deltaCum: float = 0
 
 func _ready():
-	if props.fullRun.empty() and props.name == "loop0":
+	if props.fullRun.is_empty() and props.name == "loop0":
 		Settings.ActualRun = {"run": [], "fullRun": [], "childs": {}, "name": "loop0"}
 	else:
 		Settings.GameSave.last_child_id += 1
@@ -21,7 +21,7 @@ func _ready():
 
 func _process(delta: float):
 	if start:
-		if (not props.fullRun.empty()) and follow:
+		if (not props.fullRun.is_empty()) and follow:
 			deltaCum += delta * 1000
 			if deltaCum >= props.fullRun[0].timecode:
 				inputGive(props.fullRun.pop_front())
@@ -35,10 +35,12 @@ func Move(delta: float):
 	move.y = int(act_lst.down) - int(act_lst.up)
 	move = move.normalized()
 	move *= speed
-	move_and_slide(move * delta * antdelta, Vector2.UP)
+	set_velocity(move * delta * antdelta)
+	set_up_direction(Vector2.UP)
+	move_and_slide()
 
 func _input(event: InputEvent):
-	if Settings.t0 > 0:
+	if Settings.t0 > 0: # est-ce que le timer à commencer ?
 		if follow:
 			for action in ["ui_down", "ui_up", "ui_left", "ui_right"]:
 				if event.is_action_pressed(action):

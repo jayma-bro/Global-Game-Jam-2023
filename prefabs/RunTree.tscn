@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://cp26ogk810ihg"]
+
+[ext_resource type="Script" path="res://scripts/Tree.gd" id="1_v1ese"]
+
+[node name="Tree" type="Tree"]
+offset_left = 4.0
+offset_top = 414.0
+offset_right = 191.0
+offset_bottom = 642.0
+script = ExtResource("1_v1ese")
