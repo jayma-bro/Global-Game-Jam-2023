@@ -1,33 +1,20 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=5 format=3]
 
-[ext_resource path="res://scripts/Player.gd" type="Script" id=1]
-[ext_resource path="res://assets/character/roguelikeChar_transparent.png" type="Texture2D" id=2]
+[ext_resource type="Texture2D" uid="uid://x3kr2kqlxfxo" path="res://assets/character/roguelikeChar_transparent.png" id="1"]
+[ext_resource type="Script" path="res://scripts/Player.gd" id="2"]
 
-[sub_resource type="RectangleShape2D" id=1]
-size = Vector2( 16, 16 )
+[sub_resource type="RectangleShape2D" id="1"]
 
-[sub_resource type="AtlasTexture" id=4]
-atlas = ExtResource( 2 )
-region = Rect2( 17, 85, 17, 17 )
+[sub_resource type="AtlasTexture" id="2"]
+atlas = ExtResource("1")
+region = Rect2(0, 170, 17, 17)
 
-[sub_resource type="SpriteFrames" id=3]
-animations = [ {
-"frames": [ SubResource( 4 ) ],
-"loop": true,
-"name": "default",
-"speed": 5.0
-} ]
-
-[node name="Player" type="CharacterBody2D"]
+[node name="CharacterBody2D" type="CharacterBody2D"]
 collision_layer = 0
-script = ExtResource( 1 )
-__meta__ = {
-"_edit_group_": true
-}
+script = ExtResource("2")
 
-[node name="PlayerCollision" type="CollisionShape2D" parent="."]
-shape = SubResource( 1 )
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("1")
 
-[node name="PlayerSprite" type="AnimatedSprite2D" parent="."]
-scale = Vector2( 1.88235, 1.88235 )
-frames = SubResource( 3 )
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = SubResource("2")

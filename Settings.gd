@@ -12,7 +12,8 @@ var BaseRun: Dictionary = {
 var StartSave: Dictionary = {
 	"runs": {},
 	"last_child_id": 0,
-	"last_child_name": "run0"
+	"last_child_name": "run0",
+	"selected_run": null
 }
 
 var GameSave: Dictionary = {}

@@ -1,8 +1,9 @@
 res://scenes/Main.tscn
-res://scripts/Tree.gd
-res://Func.gd
-res://scripts/Main.gd
-res://scripts/new Player.gd
 res://prefabs/RunTree.tscn
+res://scripts/Main.gd
+res://scripts/Player.gd
+res://scripts/RunTree.gd
+res://Settings.gd
 res://prefabs/Ghost.tscn
-res://prefabs/new Player.tscn
+res://scripts/Ghost.gd
+res://scripts/GhostRun.gd

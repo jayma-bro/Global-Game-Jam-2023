@@ -1,7 +1,7 @@
 2a60927148abd1d33b818b535e306557
-::res://::1677865127
+::res://::1677867558
 Func.gd::GDScript::-1::1677779039::0::1::::<>Node<>::
-Settings.gd::GDScript::-1::1677775176::0::1::::<>Node<>::
+Settings.gd::GDScript::-1::1677867558::0::1::::<>Node<>::
 ::res://assets/::1675465201
 ::res://assets/character/::1677775196
 roguelikeChar_transparent.png::CompressedTexture2D::1672784943533541528::1432111482::1677775196::1::::<><>::
@@ -9,20 +9,14 @@ roguelikeChar_transparent.png::CompressedTexture2D::1672784943533541528::1432111
 colored-transparent_packed.png::CompressedTexture2D::4513272676403139191::1636499093::1677775196::1::::<><>::
 roguelikeSheet_transparent.png::CompressedTexture2D::8480019252608798946::1675505269::1677775196::1::::<><>::
 tileset_legacy.png::CompressedTexture2D::1296827232183684818::1636499085::1677775196::1::::<><>::
-::res://prefabs/::1677782383
-Ghost.tscn::PackedScene::1151855876598945964::1677780749::0::1::::<><>::res://scripts/Ghost.gd<>uid://x3kr2kqlxfxo
-GhostPath.tscn::PackedScene::-1::1677775176::0::1::::<><>::res://assets/character/roguelikeChar_transparent.png<>res://scripts/GhostPath.gd
-new Ghost.tscn::PackedScene::-1::1677775176::0::1::::<><>::res://assets/character/roguelikeChar_transparent.png<>res://scripts/new Ghost.gd
-new Player.tscn::PackedScene::7220930672880833330::1677780948::0::1::::<><>::uid://x3kr2kqlxfxo<>res://scripts/new Player.gd
-Player.tscn::PackedScene::-1::1677775176::0::1::::<><>::res://scripts/Player.gd<>res://assets/character/roguelikeChar_transparent.png
-RunTree.tscn::PackedScene::5883319781329981596::1677782383::0::1::::<><>::res://scripts/Tree.gd
-::res://scenes/::1677782551
-Main.tscn::PackedScene::4202213697601794540::1677782551::0::1::::<><>::res://scripts/Main.gd<>uid://ds21xb61o6t67
-::res://scripts/::1677782551
-Ghost.gd::GDScript::-1::1677775176::0::1::::<>CharacterBody2D<>::
-GhostPath.gd::GDScript::-1::1677775176::0::1::::<>Path2D<>::
-Main.gd::GDScript::-1::1677781456::0::1::::<>Node2D<>::
-new Ghost.gd::GDScript::-1::1677775176::0::1::::<>CharacterBody2D<>::
-new Player.gd::GDScript::-1::1677782159::0::1::::<>CharacterBody2D<>::
-Player.gd::GDScript::-1::1677775176::0::1::::<>CharacterBody2D<>::
-Tree.gd::GDScript::-1::1677782551::0::1::::<>Tree<>::
+::res://prefabs/::1677869285
+GhostRun.tscn::PackedScene::-1::1677865435::0::1::::<><>::uid://x3kr2kqlxfxo<>res://scripts/GhostRun.gd
+Player.tscn::PackedScene::-1::1677865442::0::1::::<><>::uid://x3kr2kqlxfxo<>res://scripts/Player.gd
+RunTree.tscn::PackedScene::971662547810050949::1677869298::0::1::::<><>::res://scripts/RunTree.gd
+::res://scenes/::1677869285
+Main.tscn::PackedScene::4202213697601794540::1677869285::0::1::::<><>::res://scripts/Main.gd<>uid://ds21xb61o6t67
+::res://scripts/::1677869285
+GhostRun.gd::GDScript::-1::1677775176::0::1::::<>CharacterBody2D<>::
+Main.gd::GDScript::-1::1677869298::0::1::::<>Node2D<>::
+Player.gd::GDScript::-1::1677868730::0::1::::<>CharacterBody2D<>::
+RunTree.gd::GDScript::-1::1677868515::0::1::::<>Tree<>::

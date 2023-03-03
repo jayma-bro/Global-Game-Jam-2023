@@ -6,11 +6,16 @@ const antdelta: int = 960
 @export var speed: float = 12.5
 
 var act_lst: Dictionary = {"down": false, "up": false, "left": false, "right": false}
-var props: Dictionary = {}
 var move: Vector2 = Vector2.ZERO
 var t0: int = 0
 
+
 func _ready():
+	visible = false
+
+func start_run():
+	visible = true
+	position = get_parent().origine
 	t0 = Settings.t0
 	runTime()
 
@@ -27,7 +32,7 @@ func Move(delta: float):
 	move_and_slide()
 
 func runTime():
-	for action in props.run:
+	for action in get_parent().props.run:
 		await get_tree().create_timer(countdown(action.timecode)).timeout
 		act_lst = action.act_lst
 		position = Vector2(action.position[0], action.position[1])

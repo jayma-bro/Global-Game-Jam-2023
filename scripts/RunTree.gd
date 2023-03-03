@@ -21,4 +21,5 @@ func load_tree():
 		else:
 			childs[run.name] = create_item(childs[path[-2]])
 		childs[run.name].set_text(0, run.name)
+		childs[run.name].set_metadata(0, {"name": run.name})
 	

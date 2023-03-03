@@ -1,34 +1,25 @@
 extends CharacterBody2D
 
 
+const antdelta: int = 960
+
 @export var speed: float = 12.5
 
-var props: Dictionary = {}
-var move: Vector2 = Vector2.ZERO
-var antdelta: float = 960
 var act_lst: Dictionary = {"down": false, "up": false, "left": false, "right": false}
-var start: bool = false
-var follow: bool = true
-var deltaCum: float = 0
+var props: Dictionary = Settings.BaseRun.duplicate(true)
+var move: Vector2 = Vector2.ZERO
+var t0: int = 0
+var moving: bool = false
+var pathway: PackedStringArray = []
 
 func _ready():
-	if props.fullRun.is_empty() and props.name == "loop0":
-		Settings.ActualRun = {"run": [], "fullRun": [], "childs": {}, "name": "loop0"}
-	else:
-		Settings.GameSave.last_child_id += 1
-		Settings.GameSave.last_child_name = "loop" + String(Settings.GameSave.last_child_id)
-		Settings.ActualRun = {"run": [], "fullRun": [], "childs": {}, "name": Settings.GameSave.last_child_name}
+	t0 = Settings.t0
+	runTime()
+
 
 func _process(delta: float):
-	if start:
-		if (not props.fullRun.is_empty()) and follow:
-			deltaCum += delta * 1000
-			if deltaCum >= props.fullRun[0].timecode:
-				inputGive(props.fullRun.pop_front())
-		Move(delta)
+	Move(delta)
 
-func inputGive(input):
-	act_lst[input.action] = input.action_type
 
 func Move(delta: float):
 	move.x = int(act_lst.right) - int(act_lst.left)
@@ -39,29 +30,43 @@ func Move(delta: float):
 	set_up_direction(Vector2.UP)
 	move_and_slide()
 
+
+func runTime():
+	for action in props.run:
+		await get_tree().create_timer(countdown(action.timecode)).timeout
+		if moving:
+			break
+		pathway = action.path.split("/", false)
+		act_lst = action.act_lst
+		position = Vector2(action.position[0], action.position[1])
+		Settings.ActualRun.run.append(action.duplicate(true))
+		
+
+func countdown(timeCode: float):
+	return float((t0 + timeCode) - Time.get_ticks_msec())/1000
+
 func _input(event: InputEvent):
-	if Settings.t0 > 0: # est-ce que le timer à commencer ?
-		if follow:
-			for action in ["ui_down", "ui_up", "ui_left", "ui_right"]:
-				if event.is_action_pressed(action):
-					var timecode = Time.get_ticks_msec() - Settings.t0
-					var insert = false
-					for run_action in range(Settings.GameSave.childs[props.name].run.size()):
-						if Settings.GameSave.childs[props.name].run[run_action].timecode > timecode:
-							Settings.GameSave.childs[props.name].run.insert(run_action, {"timecode": timecode, "action": action.substr(3,-1),"action_type": true, "position": [position.x, position.y], "split": true, "branch": Settings.ActualRun.name})
-							Settings.ActualRun.fullRun.append_array(Settings.GameSave.childs[props.name].run.slice(0, run_action, 1, true))
-							insert = true
-							break
-					if not insert:
-						Settings.GameSave.childs[props.name].run.append({"timecode": timecode, "action": action.substr(3,-1),"action_type": true, "position": [position.x, position.y], "split": true, "branch": Settings.ActualRun.name})
-					act_lst = {"down": false, "up": false, "left": false, "right": false}
-					act_lst[action.substr(3,-1)] = true
-					follow = false
-		else:
-			for action in ["ui_down", "ui_up", "ui_left", "ui_right"]:
-				if event.is_action_pressed(action):
-					Settings.ActualRun.run.append({"timecode": Time.get_ticks_msec() - Settings.t0, "action": action.substr(3,-1),"action_type": true, "position": [position.x, position.y], "split": false})
-					act_lst[action.substr(3,-1)] = true
-				if event.is_action_released(action):
-					Settings.ActualRun.run.append({"timecode": Time.get_ticks_msec() - Settings.t0, "action": action.substr(3,-1),"action_type": false, "position": [position.x, position.y], "split": false})
-					act_lst[action.substr(3,-1)] = false
+	for action in ["ui_down", "ui_up", "ui_left", "ui_right"]:
+		if event.is_action(action):
+			if not moving:
+				moving = true
+				pathway.append(Settings.ActualRun.name)
+				Settings.ActualRun.path = "/".join(pathway)
+				act_lst = {"down": false, "up": false, "left": false, "right": false}
+			if event.is_action_pressed(action):
+				act_lst[action.substr(3,-1)] = true
+				Settings.ActualRun.run.append({
+					"timecode": Time.get_ticks_msec() - Settings.t0,
+					"act_lst": act_lst.duplicate(true),
+					"position": [position.x, position.y],
+					"path": "/".join(pathway)
+				})
+			elif event.is_action_released(action):
+				act_lst[action.substr(3,-1)] = false
+				Settings.ActualRun.run.append({
+					"timecode": Time.get_ticks_msec() - Settings.t0,
+					"act_lst": act_lst.duplicate(true),
+					"position": [position.x, position.y],
+					"path": "/".join(pathway)
+				})
+

@@ -1,82 +1,82 @@
 extends Node2D
 
-var Ghost = preload("res://prefabs/new Ghost.tscn")
-var GhostPath = preload("res://prefabs/GhostPath.tscn")
-var Player = preload("res://prefabs/new Player.tscn")
+var Ghost = preload("res://prefabs/Ghost.tscn")
+var Player = preload("res://prefabs/Player.tscn")
 var RunTree = preload("res://prefabs/RunTree.tscn")
 var thePlayer: CharacterBody2D = null
-var firstGhost: CharacterBody2D = null
+var allGhost: Dictionary = {}
+var runTree: Tree = null
 const origine: Vector2 = Vector2(100, 100)
-var tree: Tree = null
 signal endRun()
+signal startRun()
 
 
 func _ready():
 	Settings.GameSave = Func.LoadGame()
-	tree = RunTree.instantiate()
-	connect('endRun', Callable(tree, "_end_run"))
-	add_child(tree)
+	runTree = RunTree.instantiate()
+	connect('endRun', Callable(runTree, "_end_run"))
+	runTree.connect('item_activated', Callable(self, "tree_item_activated"))
+	runTree.connect('item_selected', Callable(self, "tree_item_selected"))
+	add_child(runTree)
+	var run = null
+	for runKey in Settings.GameSave.runs:
+		run = Settings.GameSave.runs[runKey].duplicate(true)
+		allGhost[run.name] = Ghost.instantiate()
+		allGhost[run.name].origine = origine
+		allGhost[run.name].props = run
+		connect('endRun', Callable(allGhost[run.name], "_end_run"))
+		connect('startRun', Callable(allGhost[run.name], "_start_run"))
+		add_child(allGhost[run.name])
 
 func _on_start_pressed():
-#	if not Settings.GameSave.childs.loop0.run.is_empty():
-#		firstGhost = Ghost.instantiate()
-#		firstGhost.props = Settings.GameSave.childs.loop0.duplicate(true)
-#		firstGhost.position = origine
-#		add_child(firstGhost)
-#		firstGhost.connect("newChild",Callable(self,"_newChild"))
 	thePlayer = Player.instantiate()
-	if not Settings.GameSave.runs.is_empty():
-		thePlayer.props = Settings.GameSave.runs[Settings.GameSave.last_child_name].duplicate(true)
+	if not Settings.GameSave.selected_run == null:
+		thePlayer.props = Settings.GameSave.runs[Settings.GameSave.selected_run].duplicate(true)
 	thePlayer.position = origine
 	Settings.t0 = Time.get_ticks_msec()
 	add_child(thePlayer)
-	for run in Settings.GameSave.runs:
-		firstGhost = Ghost.instantiate()
-		firstGhost.position = origine
-		firstGhost.props = Settings.GameSave.runs[run]
-		add_child(firstGhost)
+	emit_signal('startRun')
 	Settings.ActualRun.name = "run" + str(Settings.GameSave.last_child_id + 1)
 	Settings.ActualRun.run = []
 
-#func _newChild(lastPosition, name, action, timecode):
-#	var newGhost = Ghost.instantiate()
-#	newGhost.props = Settings.GameSave.childs[name].duplicate(true)
-#	newGhost.position = Vector2(lastPosition[0], lastPosition[1])
-#	newGhost.lastAction = action
-#	newGhost.deltaCum = timecode
-#	add_child(newGhost)
-	
-	
-
 func _on_stop_pressed():
 	thePlayer.queue_free()
+	Settings.ActualRun.run.append({
+		"timecode": Time.get_ticks_msec() - Settings.t0,
+		"act_lst": {"down": false, "up": false, "left": false, "right": false},
+		"position": [thePlayer.position.x, thePlayer.position.y],
+		"path": "/".join(thePlayer.pathway)
+	})
 	Settings.GameSave.runs[Settings.ActualRun.name] = Settings.ActualRun.duplicate(true)
 	Settings.GameSave.last_child_id += 1
 	Settings.GameSave.last_child_name = "run" + str(Settings.GameSave.last_child_id)
-	Func.SaveGame()
+	Settings.GameSave.selected_run = Settings.GameSave.last_child_name
+	allGhost[Settings.GameSave.last_child_name] = Ghost.instantiate()
+	allGhost[Settings.GameSave.last_child_name].origine = origine
+	allGhost[Settings.GameSave.last_child_name].props = Settings.GameSave.runs[Settings.GameSave.last_child_name].duplicate(true)
+	connect('endRun', Callable(allGhost[Settings.GameSave.last_child_name], "_end_run"))
+	connect('startRun', Callable(allGhost[Settings.GameSave.last_child_name], "_start_run"))
+	add_child(allGhost[Settings.GameSave.last_child_name])
+	
 	emit_signal("endRun")
+	runTree.childs[Settings.GameSave.last_child_name].select(0)
+	Func.SaveGame()
 	Settings.t0 = 0
-#	Settings.ActualRun.fullRun.append_array(Settings.ActualRun.run)
 
 func _on_reset_pressed():
 	Settings.ActualRun = {}
 	Settings.GameSave = Settings.StartSave.duplicate(true)
 	Func.SaveGame()
 	get_tree().change_scene_to_file("res://scenes/Main.tscn")
-#	Settings.GameSave = Settings.StartSave.duplicate(true)
-#	Func.SaveGame()
-
 
 func _on_Show_pressed():
 	Settings.t0 = Time.get_ticks_msec()
-	for run in Settings.GameSave.runs:
-		firstGhost = Ghost.instantiate()
-		firstGhost.position = origine
-		firstGhost.props = Settings.GameSave.runs[run]
-		add_child(firstGhost)
+	emit_signal('startRun')
 
+func tree_item_activated():
+	print(runTree.get_selected())
 
-
-
+func tree_item_selected():
+	print('litem' + str(runTree.get_selected()))
 
 
