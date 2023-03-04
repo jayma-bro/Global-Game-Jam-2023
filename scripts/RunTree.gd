@@ -17,9 +17,9 @@ func load_tree():
 		run = Settings.GameSave.runs[runKey].duplicate(true)
 		path = run.path.split('/', false)
 		if len(path) <= 1 :
-			childs[run.name] = create_item()
+			childs[run.id] = create_item()
 		else:
-			childs[run.name] = create_item(childs[path[-2]])
-		childs[run.name].set_text(0, run.name)
-		childs[run.name].set_metadata(0, {"name": run.name})
+			childs[run.id] = create_item(childs[path[-2]])
+		childs[run.id].set_text(0, run.name)
+		childs[run.id].set_metadata(0, {"id": run.id, "name": run.name})
 	

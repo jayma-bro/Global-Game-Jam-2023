@@ -27,7 +27,7 @@ func _start_run():
 	$GhostRun.start_run()
 
 func _selected_run(runName):
-	if runName == props.name:
+	if runName == props.id:
 		selected()
 		selection = true
 	elif selection:

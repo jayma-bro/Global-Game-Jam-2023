@@ -30,7 +30,8 @@ func _on_start_pressed():
 		thePlayer.props = Settings.GameSave.runs[Settings.GameSave.selected_run].duplicate(true)
 	thePlayer.position = Settings.origine
 	Settings.t0 = Time.get_ticks_msec()
-	Settings.ActualRun.name = "run" + str(Settings.GameSave.last_child_id + 1)
+	Settings.ActualRun.id = str(int(Settings.GameSave.last_child_id) + 1)
+	Settings.ActualRun.name = "run " + str(int(Settings.GameSave.last_child_id) + 1)
 	add_child(thePlayer)
 	emit_signal('startRun')
 
@@ -42,14 +43,13 @@ func _on_stop_pressed():
 		"position": [thePlayer.position.x, thePlayer.position.y],
 		"path": "/".join(thePlayer.pathway)
 	})
-	Settings.GameSave.runs[Settings.ActualRun.name] = Settings.ActualRun.duplicate(true)
-	Settings.GameSave.last_child_id += 1
-	Settings.GameSave.last_child_name = "run" + str(Settings.GameSave.last_child_id)
-	Settings.GameSave.selected_run = Settings.GameSave.last_child_name
-	new_ghost(Settings.GameSave.runs[Settings.GameSave.last_child_name].duplicate(true))
+	Settings.GameSave.runs[Settings.ActualRun.id] = Settings.ActualRun.duplicate(true)
+	Settings.GameSave.last_child_id = str(int(Settings.GameSave.last_child_id) + 1)
+	Settings.GameSave.selected_run = Settings.GameSave.last_child_id
+	new_ghost(Settings.GameSave.runs[Settings.GameSave.last_child_id].duplicate(true))
 	
 	emit_signal("endRun")
-	runTree.childs[Settings.GameSave.last_child_name].select(0)
+	runTree.childs[Settings.GameSave.last_child_id].select(0)
 	Func.SaveGame()
 	Settings.t0 = 0
 
@@ -64,17 +64,17 @@ func _on_Show_pressed():
 	emit_signal('startRun')
 
 func tree_item_selected():
-	Settings.GameSave.selected_run = runTree.get_selected().get_metadata(0).name
+	Settings.GameSave.selected_run = runTree.get_selected().get_metadata(0).id
 	emit_signal("selectedRun", Settings.GameSave.selected_run)
 
 func new_ghost(run):
-	allGhost[run.name] = Ghost.instantiate()
-	allGhost[run.name].origine = Settings.origine
-	allGhost[run.name].props = run
-	connect('endRun', Callable(allGhost[run.name], "_end_run"))
-	connect('startRun', Callable(allGhost[run.name], "_start_run"))
-	connect('selectedRun', Callable(allGhost[run.name], "_selected_run"))
-	add_child(allGhost[run.name])
+	allGhost[run.id] = Ghost.instantiate()
+	allGhost[run.id].origine = Settings.origine
+	allGhost[run.id].props = run
+	connect('endRun', Callable(allGhost[run.id], "_end_run"))
+	connect('startRun', Callable(allGhost[run.id], "_start_run"))
+	connect('selectedRun', Callable(allGhost[run.id], "_selected_run"))
+	add_child(allGhost[run.id])
 	
 
 

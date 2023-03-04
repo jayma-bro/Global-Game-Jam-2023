@@ -60,7 +60,7 @@ func _input(event: InputEvent):
 			if not moving:
 				moving = true
 				runPath()
-				pathway.append(Settings.ActualRun.name)
+				pathway.append(Settings.ActualRun.id)
 				Settings.ActualRun.path = "/".join(pathway)
 				act_lst = {"down": false, "up": false, "left": false, "right": false}
 			if event.is_action_pressed(action):

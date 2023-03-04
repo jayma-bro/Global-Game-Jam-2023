@@ -9,3 +9,4 @@ res://scripts/Ghost.gd
 res://prefabs/GhostParicle.tscn
 res://scripts/GhostParicle.gd
 res://prefabs/Player.tscn
+res://scripts/RunTree.gd
