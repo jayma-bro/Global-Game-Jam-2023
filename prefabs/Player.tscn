@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3]
+[gd_scene load_steps=5 format=3 uid="uid://b7am0tcatyxpc"]
 
 [ext_resource type="Texture2D" uid="uid://x3kr2kqlxfxo" path="res://assets/character/roguelikeChar_transparent.png" id="1"]
 [ext_resource type="Script" path="res://scripts/Player.gd" id="2"]
@@ -18,3 +18,7 @@ shape = SubResource("1")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = SubResource("2")
+
+[node name="ParticleTimer" type="Timer" parent="."]
+
+[connection signal="timeout" from="ParticleTimer" to="." method="_on_particle_timer_timeout"]

@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://cnnrn77lti5j5"]
+
+[ext_resource type="Texture2D" uid="uid://x3kr2kqlxfxo" path="res://assets/character/roguelikeChar_transparent.png" id="1_sgcm5"]
+[ext_resource type="Script" path="res://scripts/GhostParicle.gd" id="1_wk87u"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a3qgx"]
+atlas = ExtResource("1_sgcm5")
+region = Rect2(639, 9, 7, 7)
+
+[node name="GhostParicles" type="Node2D"]
+script = ExtResource("1_wk87u")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+self_modulate = Color(1, 1, 1, 0.235294)
+texture = SubResource("AtlasTexture_a3qgx")
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

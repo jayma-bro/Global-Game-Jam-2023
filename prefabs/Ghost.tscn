@@ -14,6 +14,7 @@ region = Rect2(17, 136, 17, 17)
 script = ExtResource("1_j7ph5")
 
 [node name="GhostRun" type="CharacterBody2D" parent="."]
+z_index = 2
 collision_layer = 0
 script = ExtResource("2_5vdqu")
 

@@ -14,6 +14,9 @@ var pathway: PackedStringArray = []
 
 func _ready():
 	t0 = Settings.t0
+	Settings.ActualRun.run = []
+	Settings.ActualRun.run_path = []
+	$ParticleTimer.wait_time = Settings.particlesTimeStep
 	runTime()
 
 
@@ -40,7 +43,13 @@ func runTime():
 		act_lst = action.act_lst
 		position = Vector2(action.position[0], action.position[1])
 		Settings.ActualRun.run.append(action.duplicate(true))
-		
+
+func runPath():
+	for run in props.run_path:
+		if run.timecode <= Time.get_ticks_msec() - t0:
+			Settings.ActualRun.run_path.append(run)
+	await get_tree().create_timer(((int((float(Time.get_ticks_msec())/1000) / Settings.particlesTimeStep)+1) * Settings.particlesTimeStep) - float(Time.get_ticks_msec())/1000).timeout
+	$ParticleTimer.start()
 
 func countdown(timeCode: float):
 	return float((t0 + timeCode) - Time.get_ticks_msec())/1000
@@ -50,13 +59,14 @@ func _input(event: InputEvent):
 		if event.is_action(action):
 			if not moving:
 				moving = true
+				runPath()
 				pathway.append(Settings.ActualRun.name)
 				Settings.ActualRun.path = "/".join(pathway)
 				act_lst = {"down": false, "up": false, "left": false, "right": false}
 			if event.is_action_pressed(action):
 				act_lst[action.substr(3,-1)] = true
 				Settings.ActualRun.run.append({
-					"timecode": Time.get_ticks_msec() - Settings.t0,
+					"timecode": Time.get_ticks_msec() - t0,
 					"act_lst": act_lst.duplicate(true),
 					"position": [position.x, position.y],
 					"path": "/".join(pathway)
@@ -64,9 +74,14 @@ func _input(event: InputEvent):
 			elif event.is_action_released(action):
 				act_lst[action.substr(3,-1)] = false
 				Settings.ActualRun.run.append({
-					"timecode": Time.get_ticks_msec() - Settings.t0,
+					"timecode": Time.get_ticks_msec() - t0,
 					"act_lst": act_lst.duplicate(true),
 					"position": [position.x, position.y],
 					"path": "/".join(pathway)
 				})
 
+
+
+func _on_particle_timer_timeout():
+	if props.run_path[-1].position[0] != position.x or props.run_path[-1].position[1] != position.y:
+		Settings.ActualRun.run_path.append({'timecode': Time.get_ticks_msec() - t0, "position": [position.x, position.y]})
