@@ -2,7 +2,7 @@ extends Node
 
 var t0: int = 0
 
-const origine: Vector2 = Vector2(100, 100)
+const origine: Vector2 = Vector2.ZERO
 const particlesTimeStep: float = 0.05
 
 var BaseRun: Dictionary = {

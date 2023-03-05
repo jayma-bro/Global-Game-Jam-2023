@@ -2,11 +2,12 @@
 
 [ext_resource type="Script" path="res://scripts/RunTree.gd" id="1_d7vy1"]
 
-[node name="Tree" type="Tree"]
-offset_left = 4.0
-offset_top = 414.0
-offset_right = 191.0
-offset_bottom = 642.0
-hide_folding = true
+[node name="RunTree" type="Tree"]
+anchors_preset = -1
+anchor_right = 0.156
+anchor_bottom = 1.023
+offset_right = 0.287994
+offset_bottom = -14.904
+grow_vertical = 2
 scroll_horizontal_enabled = false
 script = ExtResource("1_d7vy1")

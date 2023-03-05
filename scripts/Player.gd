@@ -48,13 +48,14 @@ func runPath():
 	for run in props.run_path:
 		if run.timecode <= Time.get_ticks_msec() - t0:
 			Settings.ActualRun.run_path.append(run)
-	await get_tree().create_timer(((int((float(Time.get_ticks_msec())/1000) / Settings.particlesTimeStep)+1) * Settings.particlesTimeStep) - float(Time.get_ticks_msec())/1000).timeout
+	await get_tree().create_timer(((int((float(Time.get_ticks_msec())/1000) / Settings.particlesTimeStep) + 1)
+	* Settings.particlesTimeStep) - float(Time.get_ticks_msec())/1000).timeout
 	$ParticleTimer.start()
 
 func countdown(timeCode: float):
 	return float((t0 + timeCode) - Time.get_ticks_msec())/1000
 
-func _input(event: InputEvent):
+func _unhandled_input(event: InputEvent):
 	for action in ["ui_down", "ui_up", "ui_left", "ui_right"]:
 		if event.is_action(action):
 			if not moving:

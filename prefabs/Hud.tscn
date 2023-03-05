@@ -1,0 +1,60 @@
+[gd_scene load_steps=3 format=3 uid="uid://b0rwk266ebnv6"]
+
+[ext_resource type="PackedScene" uid="uid://n3xe1cpk3ae4" path="res://prefabs/RunTree.tscn" id="1_pc456"]
+[ext_resource type="Script" path="res://scripts/Hud.gd" id="1_u0qdc"]
+
+[node name="Hud" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1280.0
+offset_bottom = 720.0
+mouse_filter = 1
+script = ExtResource("1_u0qdc")
+
+[node name="RunTree" parent="." instance=ExtResource("1_pc456")]
+layout_mode = 1
+anchors_preset = 9
+anchor_right = 0.0
+anchor_bottom = 1.0
+offset_right = 233.0
+offset_bottom = 0.0
+mouse_force_pass_scroll_events = false
+
+[node name="VBoxButton" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.187
+anchor_right = 0.296
+anchor_bottom = 0.253
+offset_left = -0.424011
+offset_right = 0.00799561
+offset_bottom = 0.0559845
+mouse_filter = 0
+mouse_force_pass_scroll_events = false
+
+[node name="Start" type="Button" parent="VBoxButton"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "Start"
+
+[node name="Show" type="Button" parent="VBoxButton"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "show"
+
+[node name="Reset" type="Button" parent="VBoxButton"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "reset"
+
+[node name="Stop" type="Button" parent="."]
+visible = false
+layout_mode = 0
+offset_left = 1175.0
+offset_top = 2.0
+offset_right = 1279.0
+offset_bottom = 58.0
+text = "Stop"
+
+[connection signal="pressed" from="VBoxButton/Start" to="." method="_on_start_pressed"]
+[connection signal="pressed" from="Stop" to="." method="_on_stop_pressed"]

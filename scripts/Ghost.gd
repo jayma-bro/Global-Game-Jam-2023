@@ -15,8 +15,8 @@ func _ready():
 		particles[-1].position.y = run.position[1]
 		particles[-1].timecode = run.timecode
 		connect('selectedGhost', Callable(particles[-1], "_selected_ghost"))
-		get_parent().connect('startRun', Callable(particles[-1], "_start_run"))
-		get_parent().connect('endRun', Callable(particles[-1], "_end_run"))
+		find_parent('Main').connect('startRun', Callable(particles[-1], "_start_run"))
+		find_parent('Main').connect('endRun', Callable(particles[-1], "_end_run"))
 		add_child(particles[-1])
 
 

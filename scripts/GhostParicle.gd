@@ -14,7 +14,6 @@ func _start_run():
 	visible = false
 	modulate = Color( 1.0, 1.0, 1.0, 1.0)
 	$Timer.wait_time = float(timecode)/1000
-	print(float(timecode)/1000)
 	$Timer.start()
 
 func _end_run():

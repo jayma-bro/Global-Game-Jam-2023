@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://b7am0tcatyxpc"]
+[gd_scene load_steps=6 format=3 uid="uid://b7am0tcatyxpc"]
 
 [ext_resource type="Texture2D" uid="uid://x3kr2kqlxfxo" path="res://assets/character/roguelikeChar_transparent.png" id="1"]
 [ext_resource type="Script" path="res://scripts/Player.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/PlayerCamera.gd" id="3_17eip"]
 
 [sub_resource type="RectangleShape2D" id="1"]
 
@@ -9,16 +10,21 @@
 atlas = ExtResource("1")
 region = Rect2(0, 170, 17, 17)
 
-[node name="CharacterBody2D" type="CharacterBody2D"]
+[node name="Player" type="CharacterBody2D"]
 collision_layer = 0
 script = ExtResource("2")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape" type="CollisionShape2D" parent="."]
 shape = SubResource("1")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Sprite" type="Sprite2D" parent="."]
 texture = SubResource("2")
 
 [node name="ParticleTimer" type="Timer" parent="."]
+
+[node name="PlayerCamera" type="Camera2D" parent="."]
+enabled = false
+position_smoothing_enabled = true
+script = ExtResource("3_17eip")
 
 [connection signal="timeout" from="ParticleTimer" to="." method="_on_particle_timer_timeout"]
