@@ -1,16 +1,14 @@
 extends CharacterBody2D
 
-
-const antdelta: int = 960
-
-@export var speed: float = 12.5
-
 var act_lst: Dictionary = {"down": false, "up": false, "left": false, "right": false}
 var props: Dictionary = Settings.BaseRun.duplicate(true)
 var move: Vector2 = Vector2.ZERO
+var _target_move: Vector2 = Vector2.ZERO
 var t0: int = 0
 var moving: bool = false
 var pathway: PackedStringArray = []
+
+const MOVE_RATE: float = 0.05
 
 func _ready():
 	t0 = Settings.t0
@@ -25,11 +23,15 @@ func _process(delta: float):
 
 
 func Move(delta: float):
-	move.x = int(act_lst.right) - int(act_lst.left)
-	move.y = int(act_lst.down) - int(act_lst.up)
-	move = move.normalized()
-	move *= speed
-	set_velocity(move * delta * antdelta)
+	_target_move.x = int(act_lst.right) - int(act_lst.left)
+	_target_move.y = int(act_lst.down) - int(act_lst.up)
+	_target_move = _target_move.normalized()
+	move = lerp(
+		move,
+		_target_move * Settings.speed,
+		MOVE_RATE * delta * Settings.antdelta
+	)
+	set_velocity(move * delta * Settings.antdelta)
 	set_up_direction(Vector2.UP)
 	move_and_slide()
 
@@ -70,6 +72,7 @@ func _unhandled_input(event: InputEvent):
 					"timecode": Time.get_ticks_msec() - t0,
 					"act_lst": act_lst.duplicate(true),
 					"position": [position.x, position.y],
+					"move": [move.x, move.y],
 					"path": "/".join(pathway)
 				})
 			elif event.is_action_released(action):
@@ -78,6 +81,7 @@ func _unhandled_input(event: InputEvent):
 					"timecode": Time.get_ticks_msec() - t0,
 					"act_lst": act_lst.duplicate(true),
 					"position": [position.x, position.y],
+					"move": [move.x, move.y],
 					"path": "/".join(pathway)
 				})
 

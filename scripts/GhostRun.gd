@@ -1,13 +1,10 @@
 extends CharacterBody2D
 
-
-const antdelta: int = 960
-
-@export var speed: float = 12.5
-
 var act_lst: Dictionary = {"down": false, "up": false, "left": false, "right": false}
 var move: Vector2 = Vector2.ZERO
+var _target_move: Vector2 = Vector2.ZERO
 var t0: int = 0
+const MOVE_RATE: float = 0.05
 
 
 func _ready():
@@ -23,11 +20,15 @@ func _physics_process(delta: float):
 	Move(delta)
 
 func Move(delta: float):
-	move.x = int(act_lst.right) - int(act_lst.left)
-	move.y = int(act_lst.down) - int(act_lst.up)
-	move = move.normalized()
-	move *= speed
-	set_velocity(move * delta * antdelta)
+	_target_move.x = int(act_lst.right) - int(act_lst.left)
+	_target_move.y = int(act_lst.down) - int(act_lst.up)
+	_target_move = _target_move.normalized()
+	move = lerp(
+		move,
+		_target_move * Settings.speed,
+		MOVE_RATE * delta * Settings.antdelta
+	)
+	set_velocity(move * delta * Settings.antdelta)
 	set_up_direction(Vector2.UP)
 	move_and_slide()
 

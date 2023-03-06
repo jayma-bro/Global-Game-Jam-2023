@@ -4,6 +4,8 @@ var t0: int = 0
 
 const origine: Vector2 = Vector2.ZERO
 const particlesTimeStep: float = 0.05
+const antdelta: float = 60.0
+const speed: float = 300
 
 var BaseRun: Dictionary = {
 	"id": "0",
